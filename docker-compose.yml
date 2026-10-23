@@ -100,6 +100,31 @@ services:
     networks:
       - frontend_net
 
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: wp_loki
+    user: "0"
+    restart: unless-stopped
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/loki-config.yaml
+    volumes:
+      - ./loki/loki-config.yaml:/etc/loki/loki-config.yaml:ro
+    networks:
+      - frontend_net
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: wp_promtail
+    restart: unless-stopped
+    volumes:
+      - ./promtail/promtail-config.yaml:/etc/promtail/promtail.yaml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: -config.file=/etc/promtail/promtail.yaml
+    networks:
+      - frontend_net
+
 volumes:
   db_data:
   wp_data:
