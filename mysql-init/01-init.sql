@@ -1,0 +1,2 @@
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, DROP ON wordpress_product_db.* TO 'wp_app_user'@'%';
+FLUSH PRIVILEGES;
